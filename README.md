@@ -1,57 +1,83 @@
-# Site template
+# Welcome page template
 
-Plain HTML/CSS/JS, no build step, no framework. Deploys directly to GitHub Pages.
-No content is filled in — everything renders empty until you edit `content.js`.
-
-```
-index.html     structure (nav, hero, entries, info panel, footer)
-style.css      design tokens (fonts, colors, spacing) up top
-script.js      renders content.js into the DOM — holds no content itself
-content.js     ← fill this in
-fonts/         drop your font files here
-```
+A minimal, wireframe-style "front door" page: fixed header/footer,
+a live clock, a scrolling list of featured items, and an about
+section. Pure HTML/CSS/JS — no build step, no framework.
 
 ## Structure
 
-Mirrors a typical index/portfolio layout:
+```
+index.html              page markup (edit text directly here: tagline, about, links)
+assets/content.json      list of featured items (photos/links/articles) — edit this, not the HTML
+assets/css/style.css     all styling; variables at the top control fonts/sizes/greys
+assets/js/script.js      clock + loads content.json into the page
+assets/img/              put your images here
+assets/fonts/            put custom font files here (optional, see below)
+```
 
-- **NAV** — top bar links
-- **HERO** — eyebrow line, title, subtitle
-- **ENTRIES** — repeating content blocks (the main list — projects, links,
-  posts, whatever)
-- **INFO PANEL** — sidebar: short bio + optional grouped lists (e.g.
-  Education, Press — rename as needed)
-- **FOOTER** — social/contact links
+## Editing content
 
-## Filling in content
+- **Header tagline, About section, footer links** — edit the text directly in `index.html`.
+- **Featured items** (photos/links/short pieces) — edit `assets/content.json`. Each entry:
 
-Everything is in `content.js`, as five arrays/objects: `NAV`, `HERO`,
-`ENTRIES`, `INFO`, `SOCIAL`. Each has commented-out example objects showing
-the shape — uncomment and fill in, or add as many as you want. Nothing in
-`index.html` or `script.js` needs to change.
+```json
+{
+  "image": "assets/img/your-photo.jpg",
+  "alt": "Description for accessibility",
+  "title": "Project Name",
+  "year": "2026",
+  "subtitle": "Line one\nLine two\nLine three",
+  "description": "A couple of sentences.",
+  "link": "https://example.com"   // optional, leave "" for no link
+}
+```
+
+Add or remove objects from the array to add/remove items — the page
+rebuilds itself from this file on load, no HTML editing needed.
 
 ## Fonts
 
-Put files in `fonts/`, then edit the two `@font-face` blocks at the top of
-`style.css` (`src: url(...)`) and set `font-family` to whatever name you
-want. `--font-display` / `--font-body` in `:root` already reference those
-names everywhere else in the file — a system fallback keeps things looking
-fine before you add real files.
+By default the page falls back to system fonts (Helvetica/Arial for
+body, monospace for the clock-style bits) so it works with zero setup.
 
-## Colors / spacing
+To use your own font:
+1. Drop the font file(s) in `assets/fonts/`.
+2. Add an `@font-face` rule at the top of `assets/css/style.css` pointing to it.
+3. Update the `--font-body` / `--font-mono` / `--font-heading` variables in `:root`.
 
-Also in `style.css`, under `:root`. Currently black/white/greyscale
-placeholders — change `--color-bg`, `--color-ink`, `--color-accent`, etc.
+## Images
+
+Put photos in `assets/img/` and reference them by relative path in
+`content.json` (e.g. `"assets/img/photo-01.jpg"`). Keep filenames
+lowercase-with-hyphens for portability. There's no build/optimization
+step, so pre-resize large photos before adding them (long edge
+~2000px is plenty for web).
+
+## Colors
+
+Intentionally black/white/grey only, matching the wireframe reference.
+All greys live in `:root` in `style.css` (`--c-text`, `--c-text-muted`,
+`--c-line`, etc.) if you ever want to adjust contrast — but no accent
+color is used anywhere by design.
 
 ## Running locally
+
+Just open `index.html` in a browser — or, since `fetch()` needs a
+server for the `content.json` load to work in some browsers, run a
+tiny local server from the project root:
 
 ```
 python3 -m http.server 8000
 ```
-then open `http://localhost:8000`.
+
+then visit `http://localhost:8000`.
 
 ## Deploying to GitHub Pages
 
-1. Push this folder to a repo (root, or a `/docs` folder).
-2. Repo **Settings → Pages → Source** → pick the branch (and `/docs` if used).
-3. Live at `https://<username>.github.io/<repo>/` shortly after.
+1. Push this folder's contents to a GitHub repo (e.g. as the repo root,
+   or inside a `/docs` folder).
+2. In the repo: **Settings → Pages → Source**, pick the branch (and
+   `/docs` folder if used).
+3. Save — GitHub will publish at `https://<username>.github.io/<repo>/`.
+
+No build step required since everything is static HTML/CSS/JS.

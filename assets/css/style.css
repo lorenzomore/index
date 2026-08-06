@@ -1,0 +1,244 @@
+/* ============================================================
+   TEMPLATE STYLESHEET
+   Structured so the maintainable bits sit at the top:
+   fonts, spacing/sizing variables, colors.
+   Everything below just consumes those variables.
+   ============================================================ */
+
+@font-face {
+  font-family: "Site Sans";
+  src: url("../fonts/ABCDiatype-Regular-Trial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Site Bold";
+  src: url("../fonts/ABCDiatype-Bold-Trial.woff2") format("woff2");
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Site Mono";
+  src: url("../fonts/ABCDiatype-Mono-Regular-Trial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+:root {
+  /* ---- fonts (swap src above, or add @font-face + change these) ---- */
+  --font-body: "Site Sans", sans-serif;
+  --font-mono: "Site Mono", monospace;
+  --font-heading: "Site Bold", sans-serif;
+
+  /* ---- type scale ---- */
+  --fs-body: 1.1rem;
+  --fs-caption: 1.0rem;
+  --fs-heading: 2.6rem;
+
+  /* ---- greyscale palette only (no accent colors) ---- */
+  --c-bg: #ffffff;
+  --c-text: rgba(0, 0, 0, 0.85);
+  --c-text-muted: rgba(0, 0, 0, 0.4);
+  --c-text-faint: rgba(0, 0, 0, 0.25);
+  --c-line: rgba(0, 0, 0, 0.15);
+  --c-placeholder-bg: #f4f4f4;
+
+  /* ---- layout ---- */
+  --bar-padding: 1.2rem;
+  --content-max: 60%;
+  --gutter: 1rem;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.3;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover { opacity: 0.6; }
+a:active { opacity: 0.5; }
+
+b, strong { font-weight: 700; }
+
+.muted { color: var(--c-text-muted); }
+
+/* ---------------------------------------------------------------
+   Fixed bars: header, clock, footer, top-link
+   --------------------------------------------------------------- */
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  padding: var(--bar-padding);
+  background: var(--c-bg);
+  font-size: var(--fs-body);
+}
+
+.bar--top {
+  top: 0;
+  justify-content: space-between;
+}
+
+.bar--clock {
+  top: 0;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.bar--clock span { pointer-events: auto; }
+
+.bar--bottom {
+  bottom: 0;
+  justify-content: space-between;
+}
+
+.bar--top-link {
+  bottom: 0;
+  justify-content: center;
+}
+
+.logo { font-weight: 500; }
+
+/* ---------------------------------------------------------------
+   Main scroll area
+   --------------------------------------------------------------- */
+
+.pages {
+  padding-top: 4.5rem;    /* clears the fixed header/clock bar */
+  padding-bottom: 4.5rem; /* clears the fixed footer bar */
+}
+
+.page {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: var(--bar-padding);
+}
+
+.page > * {
+  width: 100%;
+  max-width: var(--content-max);
+}
+
+/* Header statement */
+.page--statement {
+  min-height: 40vh;
+  align-items: center;
+}
+.statement {
+  text-align: center;
+  margin: 0 auto;
+  font-size: var(--fs-body);
+}
+
+/* ---------------------------------------------------------------
+   Projects / featured items
+   --------------------------------------------------------------- */
+
+.page--projects {
+  flex-direction: column;
+  align-items: center;
+}
+
+.project {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-bottom: 4rem;
+}
+
+.project-media {
+  width: 100%;
+  background: var(--c-placeholder-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project-meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.project-meta .col-a {
+  flex: 0 0 auto;
+  min-width: 8rem;
+}
+
+.project-meta .col-b {
+  flex: 1 1 auto;
+}
+
+.project-meta .subtitle {
+  white-space: pre-line;
+}
+
+.project-meta .description {
+  color: var(--c-text-muted);
+  margin-top: 0.75rem;
+}
+
+/* ---------------------------------------------------------------
+   About section
+   --------------------------------------------------------------- */
+
+.page--about {
+  min-height: 60vh;
+  align-items: flex-start;
+}
+
+.about-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gutter);
+}
+
+.about-col { flex: 1 1 12rem; }
+.about-col--info { flex: 1 1 20rem; }
+.about-col--spacer { flex: 0 1 2rem; }
+.about-col--list { flex: 1 1 12rem; }
+
+/* ---------------------------------------------------------------
+   Mobile
+   --------------------------------------------------------------- */
+
+@media (max-width: 720px) {
+  :root { --content-max: 100%; }
+
+  .bar--clock { display: none; }
+
+  .page { padding: 1.5rem 1.2rem; }
+
+  .about-grid { flex-direction: column; }
+  .about-col--spacer { display: none; }
+
+  .project-meta { flex-direction: column; }
+}
