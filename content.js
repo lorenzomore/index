@@ -1,47 +1,54 @@
 /**
  * CONTENT
  * -----------------------------------------------------------------------
- * Everything on the page is driven from this file. Edit the values below —
- * you never need to touch index.html or script.js to update content.
- *
- * `links` is an array, rendered top to bottom in the order you write them.
- * Group headers are optional — set `group` on the first link of a new
- * group and it'll print a small section label above it.
+ * Fill in the values below. Nothing here is real content — every field
+ * starts empty or as an empty array. index.html / script.js don't need
+ * to change when you edit this file.
  */
 
-const SITE = {
-  name: "Lorenzo",
-  bio: "Industrial software / integrations. SAP, Node-RED, the occasional side project.",
-  footerNote: "Built with plain HTML/CSS/JS · Milan, IT",
+// Top nav links (e.g. "About", "Work") — shown top-right.
+const NAV = [
+  // { label: "", url: "" },
+];
+
+const HERO = {
+  eyebrow: "",   // small line above the title
+  title: "",     // main heading
+  sub: "",       // one line under the title
 };
 
-const LINKS = [
-  {
-    group: "Elsewhere",
-    label: "GitHub",
-    handle: "@yourhandle",
-    url: "https://github.com/",
-  },
-  {
-    label: "LinkedIn",
-    handle: "Lorenzo",
-    url: "https://linkedin.com/in/",
-  },
-  {
-    label: "Instagram",
-    handle: "@yourhandle",
-    url: "https://instagram.com/",
-  },
-  {
-    label: "Email",
-    handle: "hello@example.com",
-    url: "mailto:hello@example.com",
-  },
+/**
+ * Repeating content blocks — the main body of the page.
+ * One object per block. `title` / `meta` / `body` are the only
+ * required shape; leave any field "" to omit it.
+ */
+const ENTRIES = [
+  // {
+  //   title: "",
+  //   meta: "",     // e.g. a date, category, or subtitle line
+  //   body: "",     // paragraph text
+  //   url: "",      // optional — makes the whole block a link
+  // },
+];
 
-  {
-    group: "Projects",
-    label: "Project One",
-    handle: "short description",
-    url: "https://example.com/",
-  },
+/**
+ * Sidebar / info panel — short bio plus optional grouped lists
+ * (education, shows, press, whatever applies).
+ */
+const INFO = {
+  heading: "",
+  body: "",       // short paragraph
+  groups: [
+    // {
+    //   label: "",       // group heading, e.g. "Education"
+    //   items: [
+    //     { title: "", meta: "" },
+    //   ],
+    // },
+  ],
+};
+
+// Footer social / contact links.
+const SOCIAL = [
+  // { label: "", url: "" },
 ];

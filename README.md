@@ -1,68 +1,57 @@
-# Links site
+# Site template
 
-Plain HTML/CSS/JS, no build step, no framework, no dependencies. Deploys straight to GitHub Pages.
+Plain HTML/CSS/JS, no build step, no framework. Deploys directly to GitHub Pages.
+No content is filled in — everything renders empty until you edit `content.js`.
 
 ```
-index.html     structure — you shouldn't need to touch this often
-style.css      all design tokens (colors, fonts, spacing) at the top
-script.js      renders content.js into the page — no content lives here
-content.js     ← edit this to change what's on the page
+index.html     structure (nav, hero, entries, info panel, footer)
+style.css      design tokens (fonts, colors, spacing) up top
+script.js      renders content.js into the DOM — holds no content itself
+content.js     ← fill this in
 fonts/         drop your font files here
 ```
 
-## Editing content
+## Structure
 
-Open `content.js`. Two things to edit:
+Mirrors a typical index/portfolio layout:
 
-- `SITE` — your name, bio, footer note.
-- `LINKS` — an array of link objects, rendered in order. Add a `group: "Label"`
-  field to the first item in a new group to print a section header above it
-  (like "Elsewhere" / "Projects" in the starter content). Every other field:
+- **NAV** — top bar links
+- **HERO** — eyebrow line, title, subtitle
+- **ENTRIES** — repeating content blocks (the main list — projects, links,
+  posts, whatever)
+- **INFO PANEL** — sidebar: short bio + optional grouped lists (e.g.
+  Education, Press — rename as needed)
+- **FOOTER** — social/contact links
 
-```js
-{ label: "GitHub", handle: "@you", url: "https://github.com/you" }
-```
+## Filling in content
 
-Add, remove, or reorder items freely — the page re-renders from this array.
+Everything is in `content.js`, as five arrays/objects: `NAV`, `HERO`,
+`ENTRIES`, `INFO`, `SOCIAL`. Each has commented-out example objects showing
+the shape — uncomment and fill in, or add as many as you want. Nothing in
+`index.html` or `script.js` needs to change.
 
-## Adding your fonts
+## Fonts
 
-1. Put your font files (`.woff2` preferred) in `fonts/`.
-2. Open `style.css` and update the three `@font-face` blocks near the top —
-   set `src: url("fonts/yourfile.woff2")` and `font-family` to whatever name
-   you want to reference.
-3. That's it — `--font-display`, `--font-mono`, `--font-body` in `:root`
-   already point at those family names, and every element in the page reads
-   from those three variables. There's a system-font fallback in each stack,
-   so the site looks fine even before you add real files.
-
-Roles: `Display` is the name/headline and link labels, `Mono` is the small
-uppercase labels/index numbers, `Body` is the bio text.
+Put files in `fonts/`, then edit the two `@font-face` blocks at the top of
+`style.css` (`src: url(...)`) and set `font-family` to whatever name you
+want. `--font-display` / `--font-body` in `:root` already reference those
+names everywhere else in the file — a system fallback keeps things looking
+fine before you add real files.
 
 ## Colors / spacing
 
-Also in `style.css`, under `:root`. Six named values control the whole
-palette; change `--color-brass` for a different accent, or the others for a
-different mood entirely.
+Also in `style.css`, under `:root`. Currently black/white/greyscale
+placeholders — change `--color-bg`, `--color-ink`, `--color-accent`, etc.
 
 ## Running locally
-
-No build step — just open `index.html` in a browser, or serve the folder:
 
 ```
 python3 -m http.server 8000
 ```
-
-then visit `http://localhost:8000`.
+then open `http://localhost:8000`.
 
 ## Deploying to GitHub Pages
 
-1. Push this folder to a GitHub repo (root of the repo, or a `/docs` folder —
-   your choice).
-2. In the repo: **Settings → Pages → Source**, pick the branch (and `/docs`
-   folder if you used one).
-3. Save. Your site will be live at `https://<username>.github.io/<repo>/`
-   within a minute or two.
-
-If you want a custom domain, add a `CNAME` file at the repo root with just
-your domain name in it, and point your DNS at GitHub Pages per their docs.
+1. Push this folder to a repo (root, or a `/docs` folder).
+2. Repo **Settings → Pages → Source** → pick the branch (and `/docs` if used).
+3. Live at `https://<username>.github.io/<repo>/` shortly after.

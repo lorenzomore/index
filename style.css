@@ -1,60 +1,43 @@
 /* -------------------------------------------------------------------
    FONTS
-   Drop your font files into /fonts and point the @font-face rules at
-   them. Nothing else in this file needs to change — everything below
-   references the --font-* variables.
+   Drop font files into /fonts and point these at them. Everything
+   else in this file reads from the --font-* variables below.
    ------------------------------------------------------------------- */
 
 @font-face {
   font-family: "Display";
   src: url("fonts/display.woff2") format("woff2");
-  font-weight: 400 600;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Mono";
-  src: url("fonts/mono.woff2") format("woff2");
-  font-weight: 400 500;
+  font-weight: 400 700;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Body";
   src: url("fonts/body.woff2") format("woff2");
-  font-weight: 400 500;
+  font-weight: 400 600;
   font-display: swap;
 }
 
 :root {
-  /* Fallback stacks kick in until your font files above actually exist */
-  --font-display: "Display", Georgia, "Times New Roman", serif;
-  --font-mono: "Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: "Display", Georgia, serif;
   --font-body: "Body", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
 
-  /* Palette */
-  --color-paper: #f1efe9;
-  --color-ink: #181715;
-  --color-ink-soft: #4a483f;
-  --color-line: #cfc9bc;
-  --color-brass: #9c6b24;
-  --color-moss: #5e6152;
+  /* Palette — placeholder values, replace freely */
+  --color-bg: #ffffff;
+  --color-ink: #111111;
+  --color-ink-soft: #555555;
+  --color-line: #dddddd;
+  --color-accent: #111111;
 
-  --measure: 640px;
-  --gap: 1.5rem;
+  --measure: 720px;
+  --nav-h: 3.5rem;
 }
-
-/* -------------------------------------------------------------------
-   BASE
-   ------------------------------------------------------------------- */
 
 * { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
-
 body {
   margin: 0;
-  background: var(--color-paper);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: 16px;
@@ -62,145 +45,167 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 :focus-visible {
-  outline: 2px solid var(--color-brass);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
+
+/* -------------------------------------------------------------------
+   NAV
+   ------------------------------------------------------------------- */
+
+.nav {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.nav-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+}
+
+/* -------------------------------------------------------------------
+   LAYOUT
+   ------------------------------------------------------------------- */
 
 .page {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 4.5rem 1.5rem 3rem;
+  padding: 3rem 1.5rem;
+  display: grid;
+  gap: 3rem;
 }
 
-@media (max-width: 480px) {
-  .page { padding: 3rem 1.25rem 2.5rem; }
+@media (min-width: 860px) {
+  .page {
+    max-width: 980px;
+    grid-template-columns: 1fr 300px;
+    align-items: start;
+  }
+  .hero { grid-column: 1 / -1; }
+  .entries { grid-column: 1; }
+  .info-panel { grid-column: 2; position: sticky; top: calc(var(--nav-h) + 2rem); }
 }
 
 /* -------------------------------------------------------------------
-   HEADER
+   HERO
    ------------------------------------------------------------------- */
 
-.header {
-  margin-bottom: 3.5rem;
-}
-
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-moss);
-  margin-bottom: 1.25rem;
-}
-
-.name {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(2.2rem, 6vw, 3rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  margin: 0 0 0.85rem;
-}
-
-.bio {
-  font-size: 1rem;
+.hero-eyebrow {
+  font-size: 0.85rem;
   color: var(--color-ink-soft);
-  max-width: 44ch;
+  margin: 0 0 0.5rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+}
+
+.hero-sub {
+  color: var(--color-ink-soft);
+  max-width: 50ch;
   margin: 0;
 }
 
 /* -------------------------------------------------------------------
-   LINK INDEX
+   ENTRIES (repeating content blocks)
    ------------------------------------------------------------------- */
 
-.link-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry {
+  padding: 1.75rem 0;
   border-top: 1px solid var(--color-line);
 }
 
-.link-group-label {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-moss);
-  padding: 1.6rem 0 0.6rem;
-}
-
-.link-item {
+.entry:last-child {
   border-bottom: 1px solid var(--color-line);
 }
 
-.link-item a {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.1rem 0;
-}
-
-.link-index {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-moss);
-  width: 1.6rem;
-  flex: none;
-}
-
-.link-main {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: baseline;
-  gap: 0.9rem;
-  flex-wrap: baseline;
-  min-width: 0;
-}
-
-.link-label {
+.entry-title {
   font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1.15rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem;
 }
 
-.link-handle {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  color: var(--color-moss);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.link-arrow {
-  flex: none;
-  font-family: var(--font-mono);
-  transform: translateX(0);
-  transition: transform 160ms ease, color 160ms ease;
+.entry-meta {
+  font-size: 0.85rem;
   color: var(--color-ink-soft);
+  margin: 0 0 0.6rem;
 }
 
-.link-item a:hover .link-arrow,
-.link-item a:focus-visible .link-arrow {
-  transform: translateX(4px);
-  color: var(--color-brass);
+.entry-body {
+  margin: 0;
+  max-width: 60ch;
 }
 
-.link-item a:hover .link-label,
-.link-item a:focus-visible .link-label {
-  color: var(--color-brass);
+a.entry-link {
+  display: block;
 }
 
-@media (max-width: 480px) {
-  .link-main { flex-wrap: wrap; row-gap: 0.15rem; }
-  .link-label { font-size: 1.05rem; }
+a.entry-link:hover .entry-title,
+a.entry-link:focus-visible .entry-title {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------
+   INFO PANEL
+   ------------------------------------------------------------------- */
+
+.info-heading {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+}
+
+.info-body {
+  color: var(--color-ink-soft);
+  font-size: 0.95rem;
+  margin: 0 0 1.5rem;
+}
+
+.info-group {
+  margin-bottom: 1.5rem;
+}
+
+.info-group-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+  margin: 0 0 0.5rem;
+}
+
+.info-item {
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.info-item-meta {
+  color: var(--color-ink-soft);
 }
 
 /* -------------------------------------------------------------------
@@ -208,28 +213,23 @@ a {
    ------------------------------------------------------------------- */
 
 .footer {
-  margin-top: 3.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--color-line);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--color-moss);
-}
-
-.footer-row {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.85rem;
 }
 
-.top-link {
-  color: var(--color-ink-soft);
+.footer-social {
+  display: flex;
+  gap: 1.25rem;
 }
 
-.top-link:hover,
-.top-link:focus-visible {
-  color: var(--color-brass);
+@media (min-width: 860px) {
+  .footer { max-width: 980px; }
 }
 
 /* -------------------------------------------------------------------
@@ -237,5 +237,5 @@ a {
    ------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .link-arrow, .top-link { transition: none; }
+  * { transition: none !important; }
 }

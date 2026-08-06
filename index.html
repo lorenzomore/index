@@ -3,41 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Lorenzo — Links</title>
-<meta name="description" content="Links and profiles.">
-
-<!-- Open Graph -->
-<meta property="og:title" content="Lorenzo">
-<meta property="og:description" content="Links and profiles.">
-<meta property="og:type" content="website">
+<title></title>
+<meta name="description" content="">
 
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="page">
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<header class="nav">
+  <a href="#top" class="nav-mark"></a>
+  <nav class="nav-links"></nav>
+</header>
 
-  <header class="header">
-    <div class="eyebrow" data-js="clock">— · —</div>
-    <h1 class="name" id="site-name">Loading…</h1>
-    <p class="bio" id="site-bio"></p>
-  </header>
+<div class="page" id="top">
 
-  <main>
-    <section class="index" aria-label="Links">
-      <ol class="link-list" id="link-list"></ol>
-    </section>
-  </main>
+  <!-- ==========================================================
+       HERO
+       ========================================================== -->
+  <section class="hero" id="hero">
+    <p class="hero-eyebrow"></p>
+    <h1 class="hero-title"></h1>
+    <p class="hero-sub"></p>
+  </section>
 
-  <footer class="footer">
-    <div class="footer-row">
-      <span id="footer-note">—</span>
-      <a href="#top" class="top-link">Top ↑</a>
-    </div>
-  </footer>
+  <!-- ==========================================================
+       ENTRIES
+       Repeating content blocks — one <article class="entry"> per
+       item. This markup is duplicated by renderEntries() in
+       script.js from the ENTRIES array in content.js; the block
+       below is left here only as a reference for the markup shape.
+       ========================================================== -->
+  <main class="entries" id="entries" aria-label="Entries"></main>
+
+  <!-- ==========================================================
+       INFO PANEL
+       Sidebar-style block: short bio + contact + grouped lists
+       (e.g. education, exhibitions, press — rename freely).
+       ========================================================== -->
+  <aside class="info-panel" id="info-panel">
+    <h2 class="info-heading"></h2>
+    <div class="info-body" id="info-body"></div>
+    <div class="info-groups" id="info-groups"></div>
+  </aside>
 
 </div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <a href="#top" class="top-link">Top ↑</a>
+  <div class="footer-social" id="footer-social"></div>
+</footer>
 
 <script src="content.js"></script>
 <script src="script.js"></script>
