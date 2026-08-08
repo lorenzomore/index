@@ -1,7 +1,6 @@
 /* ============================================================
    TEMPLATE STYLESHEET
-   Structured so the maintainable bits sit at the top:
-   fonts, spacing/sizing variables, colors.
+   Maintainable bits at the top: fonts, type scale, colors, layout sizes.
    Everything below just consumes those variables.
    ============================================================ */
 
@@ -12,45 +11,53 @@
   font-style: normal;
   font-display: swap;
 }
-
 @font-face {
-  font-family: "Site Bold";
-  src: url("../fonts/ABCDiatype-Bold-Trial.woff2") format("woff2");
+  font-family: "Site Medium";
+  src: url("../fonts/ABCDiatype-Medium-Trial.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
-
-
+@font-face {
+  font-family: "Site Bold";
+  src: url("../fonts/ABCDiatype-Bold-Trial.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 @font-face {
   font-family: "Site Mono";
-  src: url("../fonts/ABCDiatype-Mono-Regular-Trial.woff2") format("woff2");
+  src: url("../fonts/ABCDiatypeMono-Regular-Trial.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-:root {
-  /* ---- fonts (swap src above, or add @font-face + change these) ---- */
-  --font-body: "Site Sans", sans-serif;
-  --font-mono: "Site Mono", monospace;
-  --font-heading: "Site Bold", sans-serif;
 
-  /* ---- type scale ---- */
-  --fs-body: 1.1rem;
-  --fs-caption: 1.0rem;
-  --fs-heading: 2.6rem;
+:root {
+  /* ---- fonts ---- */
+  --font-body: "Site Sans", Helvetica, Arial, sans-serif;
+  --font-mono: "Site Mono", "Courier New", monospace;
+
+  /* ---- type scale (kept small/quiet) ---- */
+  --fs-body: 0.95rem;
+  --fs-nav: 0.95rem;
+  --fs-title: 1.05rem;
+  --fs-caption: 0.85rem;
+  --fs-clock: 0.95rem;
 
   /* ---- greyscale palette only (no accent colors) ---- */
   --c-bg: #ffffff;
   --c-text: rgba(0, 0, 0, 0.85);
   --c-text-muted: rgba(0, 0, 0, 0.4);
-  --c-text-faint: rgba(0, 0, 0, 0.25);
   --c-line: rgba(0, 0, 0, 0.15);
   --c-placeholder-bg: #f4f4f4;
 
   /* ---- layout ---- */
-  --bar-padding: 1.2rem;
-  --content-max: 60%;
-  --gutter: 1rem;
+  --navbar-height: 4.2rem;
+  --sidebar-width: 15rem;
+  --pad: 1.2rem;
+  --content-max: 34rem;
+  --home-image-max: 45rem;
 }
 
 * { box-sizing: border-box; }
@@ -66,7 +73,7 @@ body {
   color: var(--c-text);
   font-family: var(--font-body);
   font-size: var(--fs-body);
-  line-height: 1.3;
+  line-height: 1.35;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -78,167 +85,160 @@ a:hover { opacity: 0.6; }
 a:active { opacity: 0.5; }
 
 b, strong { font-weight: 700; }
-
 .muted { color: var(--c-text-muted); }
 
 /* ---------------------------------------------------------------
-   Fixed bars: header, clock, footer, top-link
+   Top navbar — full width, fixed, fine line border underneath
    --------------------------------------------------------------- */
 
-.bar {
+.topbar {
   position: fixed;
+  top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  height: var(--navbar-height);
+  z-index: 20;
   display: flex;
-  padding: var(--bar-padding);
-  background: var(--c-bg);
-  font-size: var(--fs-body);
-}
-
-.bar--top {
-  top: 0;
-  justify-content: space-between;
-}
-
-.bar--clock {
-  top: 0;
-  justify-content: space-between;
-  pointer-events: none;
-}
-.bar--clock span { pointer-events: auto; }
-
-.bar--bottom {
-  bottom: 0;
-  justify-content: space-between;
-}
-
-.bar--top-link {
-  bottom: 0;
-  justify-content: center;
-}
-
-.logo { font-weight: 500; }
-
-/* ---------------------------------------------------------------
-   Main scroll area
-   --------------------------------------------------------------- */
-
-.pages {
-  padding-top: 4.5rem;    /* clears the fixed header/clock bar */
-  padding-bottom: 4.5rem; /* clears the fixed footer bar */
-}
-
-.page {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: var(--bar-padding);
-}
-
-.page > * {
-  width: 100%;
-  max-width: var(--content-max);
-}
-
-/* Header statement */
-.page--statement {
-  min-height: 40vh;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad);
+  background: var(--c-bg);
+  border-bottom: 1px solid var(--c-line);
 }
-.statement {
-  text-align: center;
-  margin: 0 auto;
-  font-size: var(--fs-body);
-}
+
+.site-name { font-weight: 500; line-height: 1.3; }
+.tagline { font-weight: 400; font-size: var(--fs-caption); }
+.clock { font-family: var(--font-mono); font-size: var(--fs-clock); }
 
 /* ---------------------------------------------------------------
-   Projects / featured items
+   Layout: fixed sidebar (projects) + main content,
+   both offset below the fixed top navbar
    --------------------------------------------------------------- */
 
-.page--projects {
+.layout {
+  display: flex;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding-top: var(--navbar-height);
+}
+
+.sidebar {
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  padding: var(--pad);
+  overflow-y: auto;
+  font-size: var(--fs-nav);
+}
+
+.sidebar ol {
+  font-family: var(--font-mono);
+  margin: 0;
+  padding-left: 1.4rem;
+}
+.sidebar li { margin-bottom: 0.3rem; }
+.sidebar a.active { text-decoration: underline; }
+
+.content {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: var(--pad);
+}
+
+.view[hidden] { display: none; }
+
+/* ---------------------------------------------------------------
+   Home view — one centered image + a bit of text/links
+   --------------------------------------------------------------- */
+
+.view-home {
+  display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.project {
-  width: 100%;
-  max-width: var(--content-max);
-  margin-bottom: 4rem;
-}
-
-.project-media {
-  width: 100%;
-  background: var(--c-placeholder-bg);
-  display: flex;
-  align-items: center;
+  text-align: center;
+  min-height: calc(100vh - var(--navbar-height) - 2 * var(--pad));
   justify-content: center;
-  margin-bottom: 0.75rem;
 }
 
-.project-media img {
+.home-image {
+  display: block;
+  width: 100%;
+  max-width: var(--home-image-max);
+  height: auto;
+  background: var(--c-placeholder-bg);
+  margin-bottom: 1.5rem;
+}
+
+.home-text { max-width: var(--content-max); margin-bottom: 1rem; }
+
+.home-links { display: flex; gap: 1rem; }
+.home-links a { text-decoration: underline; }
+
+/* ---------------------------------------------------------------
+   Project detail view — title, subtitle, gallery, description
+   --------------------------------------------------------------- */
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 2rem;
+  text-decoration: underline;
+  font-size: var(--fs-caption);
+}
+
+.project-detail { max-width: var(--content-max); }
+.project-heading { margin-bottom: 1rem; font-size: var(--fs-title); }
+.project-heading .subtitle { color: var(--c-text-muted); font-style: italic; }
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.gallery figure { margin: 0; }
+.gallery img {
   display: block;
   width: 100%;
   height: auto;
+  background: var(--c-placeholder-bg);
 }
-
-.project-meta {
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-start;
-}
-
-.project-meta .col-a {
-  flex: 0 0 auto;
-  min-width: 8rem;
-}
-
-.project-meta .col-b {
-  flex: 1 1 auto;
-}
-
-.project-meta .subtitle {
-  white-space: pre-line;
-}
-
-.project-meta .description {
+.gallery figcaption {
+  font-size: var(--fs-caption);
   color: var(--c-text-muted);
-  margin-top: 0.75rem;
+  margin-top: 0.4rem;
 }
+
+.project-description { font-size: var(--fs-body); margin-top: 0.5rem; }
+.project-description .view-link { text-decoration: underline; }
 
 /* ---------------------------------------------------------------
-   About section
+   Footer
    --------------------------------------------------------------- */
 
-.page--about {
-  min-height: 60vh;
-  align-items: flex-start;
-}
-
-.about-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gutter);
-}
-
-.about-col { flex: 1 1 12rem; }
-.about-col--info { flex: 1 1 20rem; }
-.about-col--spacer { flex: 0 1 2rem; }
-.about-col--list { flex: 1 1 12rem; }
+.footer { margin-top: 3rem; padding-top: 1rem; font-size: var(--fs-caption); }
 
 /* ---------------------------------------------------------------
    Mobile
    --------------------------------------------------------------- */
 
-@media (max-width: 720px) {
-  :root { --content-max: 100%; }
+@media (max-width: 780px) {
+  .layout { flex-direction: column; }
 
-  .bar--clock { display: none; }
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid var(--c-line);
+  }
 
-  .page { padding: 1.5rem 1.2rem; }
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
 
-  .about-grid { flex-direction: column; }
-  .about-col--spacer { display: none; }
+  .view-home { min-height: auto; padding: 3rem 0; }
 
-  .project-meta { flex-direction: column; }
+  .gallery { grid-template-columns: 1fr; }
 }
