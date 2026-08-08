@@ -14,17 +14,17 @@ Pure HTML/CSS/JS — no build step, no framework, works straight from
 
 ```
 src/index.html            page skeleton — navbar/sidebar/home-view/project-view
-src/assets/config.js       site name, tagline, homepage image/text/links, footer copyright
+src/assets/content.js       site name, tagline, homepage image/text/links, footer copyright
 src/assets/content.js      the array of projects — this is what you edit most
 src/assets/css/style.css   all styling; variables at the top control fonts/sizes/greys/layout
-src/assets/js/script.js    clock + routing + renders config.js/content.js into the page
+src/assets/js/script.js    clock + routing + renders content.js into the page
 src/assets/img/            put your images here
 src/assets/fonts/          your font files
 ```
 
 ## Editing the homepage
 
-Edit `src/assets/config.js`:
+Edit `src/assets/content.js`:
 
 ```js
 window.SITE_INFO = {
@@ -66,7 +66,7 @@ Want an About page? Just add an entry titled `"About"` with your bio
 as the `description` — it'll show up in the sidebar and render like
 any other project.
 
-Both `config.js` and `content.js` assign directly to a `window.`
+Both `content.js` and `content.js` assign directly to a `window.`
 property (`window.SITE_INFO`, `window.PROJECTS`) rather than using
 `const`. This matters: top-level `const`/`let` in a plain `<script>`
 do **not** become `window` properties in the browser — only `var` or

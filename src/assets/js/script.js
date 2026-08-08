@@ -12,7 +12,7 @@ updateClock();
 setInterval(updateClock, 1000);
 
 // ------------------------------------------------------------
-// Site-level info + homepage content (assets/config.js -> window.SITE_INFO)
+// Site-level info + homepage content (assets/content.js -> window.SITE_INFO)
 // ------------------------------------------------------------
 function renderSiteInfo() {
   const info = window.SITE_INFO || {};
