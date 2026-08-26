@@ -35,18 +35,18 @@
 
 :root {
   /* ---- fonts ---- */
-  --font-body: "Site Sans", Helvetica, Arial, sans-serif;
-  --font-mono: "Site Mono", "Courier New", monospace;
+  --font-body: "Site Sans";
+  --font-mono: "Site Mono";
   --font-bold: "Site Bold";
 
-  /* ---- type scale (kept small/quiet) ---- */
+  /* ---- type scale ---- */
   --fs-body: 0.95rem;
   --fs-nav: 0.95rem;
   --fs-title: 1.10rem;
   --fs-caption: 0.85rem;
   --fs-clock: 0.95rem;
 
-  /* ---- greyscale palette only (no accent colors) ---- */
+  /* ---- color palette ---- */
   --c-bg: #ffffff;
   --c-text: rgba(0, 0, 0, 0.85);
   --c-text-muted: rgba(0, 0, 0, 0.4);
@@ -148,6 +148,7 @@ b, strong { font-weight: 700; }
 .sidebar a.active { text-decoration: underline; }
 
 .content {
+  top: var(--navbar-height);
   margin-left: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
   padding: var(--pad);
@@ -164,7 +165,7 @@ b, strong { font-weight: 700; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  min-height: calc(100vh - var(--navbar-height) - 2 * var(--pad));
+  min-height: calc(100vh - var(--navbar-height) - 2 * var(--pad) - 6rem);
   justify-content: center;
 }
 
@@ -185,6 +186,15 @@ b, strong { font-weight: 700; }
 /* ---------------------------------------------------------------
    Project detail view — title, subtitle, gallery, description
    --------------------------------------------------------------- */
+
+.view-project {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  min-height: calc(100vh - var(--navbar-height) - 2 * var(--pad) - 6rem);
+  justify-content: center;
+}
 
 .back-link {
   display: inline-block;
@@ -216,14 +226,23 @@ b, strong { font-weight: 700; }
   margin-top: 0.4rem;
 }
 
-.project-description { font-size: var(--fs-body); margin-top: 0.5rem; }
-.project-description .view-link { text-decoration: underline; }
+.project-description {
+  font-size: var(--fs-body);
+  margin-top: 0.5rem;
+}
+.project-description .view-link {
+  text-decoration: underline;
+}
 
 /* ---------------------------------------------------------------
    Footer
    --------------------------------------------------------------- */
 
-.footer { margin-top: 3rem; padding-top: 1rem; font-size: var(--fs-caption); }
+.footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  font-size: var(--fs-caption);
+}
 
 /* ---------------------------------------------------------------
    Mobile

@@ -27,22 +27,25 @@ window.SITE_INFO = {
 // window properties in the browser — only assigning to window. does.
 window.PROJECTS = [
   {
-    title: "Project Name",
-    subtitle: "Short subtitle line",
-    images: [
-      { src: "assets/img/placeholder.svg", alt: "Image one", caption: "Caption for image one." },
-      { src: "assets/img/placeholder.svg", alt: "Image two", caption: "Caption for image two." }
-    ],
-    description: "A couple of sentences describing this project, piece, or article.",
-    link: "" // optional external URL, shown as an extra "Visit ↗" on the page
-  },
-  {
     title: "About",
     subtitle: "",
     images: [
-      { src: "assets/img/placeholder.svg", alt: "Portrait", caption: "" }
+      //{ src: "assets/img/placeholder.svg", alt: "Portrait", caption: "" }
     ],
-    description: "A short bio or about text goes here — this is just a regular entry in the list above, styled the same as any other project.",
+    description: `
+    Hi, I’m Lorenzo.</br>
+    I work with photography and video, capturing and documenting life and the things that interest me.</br>
+    </br>
+    My other interests include visual arts, technology, fashion, and design.`,
+    link: ""
+  },
+  {
+    title: "Desk setup",
+    subtitle: "",
+    images: [
+      { src: "assets/img/774A5852.jpg", caption: "" }
+    ],
+    description: ``,
     link: ""
   }
 ];
