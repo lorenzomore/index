@@ -12,7 +12,7 @@ updateClock();
 setInterval(updateClock, 1000);
 
 // ------------------------------------------------------------
-// Site-level info + homepage content (assets/content.js -> window.SITE_INFO)
+// Site-level info + homepage content (assets/config.js -> window.SITE_INFO)
 // ------------------------------------------------------------
 function renderSiteInfo() {
   const info = window.SITE_INFO || {};
@@ -54,13 +54,49 @@ function renderSiteInfo() {
 }
 
 // ------------------------------------------------------------
-// Build sidebar project list (assets/content.js -> window.PROJECTS)
+// Load every file listed in window.PROJECT_FILES (assets/config.js)
+// from assets/projects/. Each file is a plain HTML fragment — it's
+// fetched as raw text and injected as-is, no parsing at all. It
+// already inherits every class defined in style.css (.gallery,
+// figure/figcaption, p, ul, etc.) just by using those tags/classes
+// directly in the file.
+//
+// Uses fetch(), so this requires a local server during development —
+// opening index.html directly via file:// will not load projects.
+// Run `python3 -m http.server` from the project root and visit
+// http://localhost:8000 instead. See README for details.
+// ------------------------------------------------------------
+async function loadProjects() {
+  const entries = window.PROJECT_FILES || [];
+  const results = [];
+
+  for (const entry of entries) {
+    try {
+      const res = await fetch(`assets/projects/${entry.file}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const html = await res.text();
+      results.push({ title: entry.title || entry.file, bodyHtml: html });
+    } catch (err) {
+      console.error(`Could not load assets/projects/${entry.file}`, err);
+      results.push({
+        title: entry.title || entry.file,
+        bodyHtml: `<p class="muted">Could not load this project file (${entry.file}). If you opened this page directly from disk, run a local server instead — see README.</p>`
+      });
+    }
+  }
+
+  window.PROJECTS = results;
+}
+
+// ------------------------------------------------------------
+// Build sidebar project list from window.PROJECTS
 // ------------------------------------------------------------
 function buildNavList() {
   const projects = window.PROJECTS || [];
   const navList = document.getElementById("nav-projects");
   if (!navList) return;
 
+  navList.innerHTML = "";
   projects.forEach((project, index) => {
     const li = document.createElement("li");
     const a = document.createElement("a");
@@ -73,49 +109,15 @@ function buildNavList() {
 }
 
 // ------------------------------------------------------------
-// Render a single project's full detail view
+// Render a single project's full detail view — just drops its
+// fetched HTML straight in, unmodified.
 // ------------------------------------------------------------
 function renderProjectDetail(index) {
   const project = (window.PROJECTS || [])[index];
   const container = document.getElementById("project-detail");
   if (!container || !project) return;
 
-  container.innerHTML = "";
-
-  const heading = document.createElement("div");
-  heading.className = "project-heading";
-  heading.innerHTML = `
-    <b>${project.title || ""}</b>
-    ${project.subtitle ? `<br><span class="subtitle">${project.subtitle}</span>` : ""}
-  `;
-  container.appendChild(heading);
-
-  if (Array.isArray(project.images) && project.images.length) {
-    const gallery = document.createElement("div");
-    gallery.className = "gallery";
-    project.images.forEach((image) => {
-      const figure = document.createElement("figure");
-      const img = document.createElement("img");
-      img.src = image.src;
-      img.alt = image.alt || "";
-      figure.appendChild(img);
-      if (image.caption) {
-        const figcaption = document.createElement("figcaption");
-        figcaption.textContent = image.caption;
-        figure.appendChild(figcaption);
-      }
-      gallery.appendChild(figure);
-    });
-    container.appendChild(gallery);
-  }
-
-  const description = document.createElement("div");
-  description.className = "project-description";
-  description.innerHTML = `${project.description || ""}`;
-  if (project.link) {
-    description.innerHTML += ` [<a class="view-link" href="${project.link}" target="_blank" rel="noopener">Visit ↗</a>]`;
-  }
-  container.appendChild(description);
+  container.innerHTML = project.bodyHtml;
 }
 
 // ------------------------------------------------------------
@@ -168,8 +170,9 @@ document.addEventListener("click", (e) => {
 });
 
 window.addEventListener("hashchange", route);
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   renderSiteInfo();
+  await loadProjects();
   buildNavList();
   route();
 });
