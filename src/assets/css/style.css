@@ -4,47 +4,86 @@
    Everything below just consumes those variables.
    ============================================================ */
 
+/* ---------------------------------------------------------------
+   Font faces
+   One family name per typeface, one @font-face per weight.
+   The browser picks the right file from font-weight.
+   --------------------------------------------------------------- */
+
+/* Diatype (sans) */
 @font-face {
-  font-family: "Site Sans";
+  font-family: "Diatype";
   src: url("../fonts/ABCDiatype-Regular-Trial.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Site Medium";
+  font-family: "Diatype";
   src: url("../fonts/ABCDiatype-Medium-Trial.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Site Bold";
+  font-family: "Diatype";
   src: url("../fonts/ABCDiatype-Bold-Trial.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
+
+/* Diatype Mono */
 @font-face {
-  font-family: "Site Mono";
+  font-family: "Diatype Mono";
   src: url("../fonts/ABCDiatypeMono-Regular-Trial.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
+/* GT Canon */
+@font-face {
+  font-family: "GT Canon";
+  src: url("../fonts/GT-Canon-M-Standard-Regular-Trial.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GT Canon";
+  src: url("../fonts/GT-Canon-M-Standard-Medium-Trial.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GT Canon";
+  src: url("../fonts/GT-Canon-M-Standard-Bold-Trial.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  /* ---- fonts ---- */
-  --font-body: "Site Sans";
-  --font-mono: "Site Mono";
-  --font-bold: "Site Bold";
+  /* ---- fonts (family + fallbacks only, weights live below) ---- */
+  --font-body: "Diatype", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:
+    "Diatype Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-text-serif:
+    "GT Canon", Georgia, "Times New Roman", serif; /* not used yet */
+
+  /* ---- font weights (map to the @font-face files above) ---- */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
 
   /* ---- type scale ---- */
   --fs-body: 0.95rem;
   --fs-nav: 0.95rem;
-  --fs-title: 1.10rem;
+  --fs-title: 1.1rem;
   --fs-caption: 0.85rem;
-  --fs-clock: 0.95rem;
+  --fs-clock: 0.85rem;
 
   /* ---- color palette ---- */
   --c-bg: #ffffff;
@@ -61,9 +100,12 @@
   --home-image-max: 45rem;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   min-height: 100%;
@@ -73,8 +115,12 @@ body {
   background: var(--c-bg);
   color: var(--c-text);
   font-family: var(--font-body);
+  font-weight: var(--fw-regular);
   font-size: var(--fs-body);
   line-height: 1.35;
+  /* Never fake bold/italic: if a weight or style is missing, it should be
+     obvious instead of silently rendering a distorted version. */
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -82,11 +128,20 @@ a {
   color: inherit;
   text-decoration: none;
 }
-a:hover { opacity: 0.6; }
-a:active { opacity: 0.5; }
+a:hover {
+  opacity: 0.6;
+}
+a:active {
+  opacity: 0.5;
+}
 
-b, strong { font-weight: 700; }
-.muted { color: var(--c-text-muted); }
+b,
+strong {
+  font-weight: var(--fw-bold);
+}
+.muted {
+  color: var(--c-text-muted);
+}
 
 /* ---------------------------------------------------------------
    Top navbar — full width, fixed, fine line border underneath
@@ -110,11 +165,17 @@ b, strong { font-weight: 700; }
 .site-name {
   font-family: var(--font-body);
   font-size: var(--fs-title);
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   line-height: 1.3;
 }
-.tagline { font-weight: 400; font-size: var(--fs-caption); }
-.clock { font-family: var(--font-mono); font-size: var(--fs-clock); }
+.tagline {
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-caption);
+}
+.clock {
+  font-family: var(--font-mono);
+  font-size: var(--fs-clock);
+}
 
 /* ---------------------------------------------------------------
    Layout: fixed sidebar (projects) + main content,
@@ -144,8 +205,12 @@ b, strong { font-weight: 700; }
   margin: 0;
   padding-left: 1.4rem;
 }
-.sidebar li { margin-bottom: 0.3rem; }
-.sidebar a.active { text-decoration: underline; }
+.sidebar li {
+  margin-bottom: 0.3rem;
+}
+.sidebar a.active {
+  text-decoration: underline;
+}
 
 .content {
   top: var(--navbar-height);
@@ -154,7 +219,9 @@ b, strong { font-weight: 700; }
   padding: var(--pad);
 }
 
-.view[hidden] { display: none; }
+.view[hidden] {
+  display: none;
+}
 
 /* ---------------------------------------------------------------
    Home view — one centered image + a bit of text/links
@@ -178,10 +245,18 @@ b, strong { font-weight: 700; }
   margin-bottom: 1.5rem;
 }
 
-.home-text { max-width: var(--content-max); margin-bottom: 1rem; }
+.home-text {
+  max-width: var(--content-max);
+  margin-bottom: 1rem;
+}
 
-.home-links { display: flex; gap: 1rem; }
-.home-links a { text-decoration: underline; }
+.home-links {
+  display: flex;
+  gap: 1rem;
+}
+.home-links a {
+  text-decoration: underline;
+}
 
 /* ---------------------------------------------------------------
    Project detail view — title, subtitle, gallery, description
@@ -203,9 +278,19 @@ b, strong { font-weight: 700; }
   font-size: var(--fs-caption);
 }
 
-.project-detail { max-width: var(--content-max); }
-.project-heading { margin-bottom: 1rem; font-size: var(--fs-title); }
-.project-heading .subtitle { color: var(--c-text-muted); font-style: italic; }
+.project-content {
+  font-family: var(--font-text-serif);
+  font-weight: var(--fw-medium);
+}
+.project-heading {
+  margin-bottom: 1rem;
+  font-size: var(--fs-title);
+}
+
+.project-heading .subtitle {
+  color: var(--c-text-muted);
+  font-style: normal;
+}
 
 .gallery {
   display: grid;
@@ -214,7 +299,9 @@ b, strong { font-weight: 700; }
   margin-bottom: 1rem;
   width: 70%;
 }
-.gallery figure { margin: 0; }
+.gallery figure {
+  margin: 0;
+}
 .gallery img {
   display: block;
   width: 100%;
@@ -250,7 +337,9 @@ b, strong { font-weight: 700; }
    --------------------------------------------------------------- */
 
 @media (max-width: 780px) {
-  .layout { flex-direction: column; }
+  .layout {
+    flex-direction: column;
+  }
 
   .sidebar {
     position: static;
@@ -264,7 +353,12 @@ b, strong { font-weight: 700; }
     width: 100%;
   }
 
-  .view-home { min-height: auto; padding: 3rem 0; }
+  .view-home {
+    min-height: auto;
+    padding: 3rem 0;
+  }
 
-  .gallery { grid-template-columns: 1fr; }
+  .gallery {
+    grid-template-columns: 1fr;
+  }
 }
